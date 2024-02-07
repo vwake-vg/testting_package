@@ -8,6 +8,9 @@ find . -type f -name requirements.txt | xargs -n1 -I{} cat {} | cut -d : -f 1 | 
 
 find . -type f -name requirements.txt | xargs -n1 -I{} cat {} | cut -d : -f 1 | tr -d '"|}|{' | sort -u | grep -v "#" | sed 's/=[[:alnum:].<>]*//g' |  sed 's/>[^ ]*//g' | sed 's/ .*$//' | sed 's/~.*//' | sed 's/<[^ ]*//g' | xargs -n1 -I{} echo "https://pypi.org/project/{}/" |  httpx -status-code -silent -content-length | sort -u
 
+
+find . -type f -name Gemfile | xargs -n1 -I{} cat {} | grep -v 'gemspec'  | grep '^gem' | sed 's/gem//g' |  sed 's/,[^ ]*//g' |  awk '{print $1}' |tr -d "'" | tr -d '"' | tr -d "(" | tr -d ")" | sort -u | xargs -n1 -I{} echo " https://rubygems.org/api/v1/gems/{}.json" | httpx -status-code -silent -content-length | sort -u
+
 {
   "name": "trix",
   "version": "2.0.8",
