@@ -1,4 +1,5 @@
  find . -type f -name requirements.txt | xargs -n1 -I{} cat {} | cut -d : -f 1 | tr -d '"|}|{'| grep -v '#' | xargs -n1 -I{} echo "https://pypi.org/project/{}" | httpx -status-code -silent -content-length -mc 404
+ find . -type f -name requirements.txt | xargs -n1 -I{} cat {} | cut -d : -f 1 |  xargs -n1 -I{} echo "https://pypi.org/project/{}" | httpx -status-code -silent -content-length -mc 404
 {
   "name": "trix",
   "version": "2.0.8",
