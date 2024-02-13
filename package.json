@@ -13,6 +13,7 @@ find . -type f -name Gemfile | xargs -n1 -I{} cat {} | grep -v 'gemspec'  | grep
 
 find . -type f -name Gemfile.lock |  xargs -n1 -I{} cat {}  | sed '/PATH/,/specs:/d' | sed '/GEM/,/specs:/d' | sed '/PLATFORMS/,/DEPENDENCIES/d' | sed '/RUBY VERSION/,/BUNDLED WITH/d' | sed '/BUNDLED WITH/{n;d;}' |sed '/GIT/,/specs:/d' | sed 's/BUNDLED WITH//g' | sed 's/(.*)//g' |  tr -d '"|}|{'  |  cut -d : -f 1  | sort -u | sed 's/ //g' |sed 's/!//g'|sort -u | xargs -n1 -I{} echo " https://rubygems.org/api/v1/gems/{}.json" | httpx -status-code -silent -content-length | sort -u 
 
+find . -type f | xargs -n1 -I{} cat {} | strings | grep -o 'https://github\.com/[^/]\+' | sort -u | sed 's/[()]//g' | sed "s/'\|\"//g" | sed 's/,.*//g' | httpx -status-code -silent -content-length -mc 404 
 
 {
   "name": "trix",
