@@ -15,6 +15,10 @@ find . -type f -name Gemfile.lock |  xargs -n1 -I{} cat {}  | sed '/PATH/,/specs
 
 find . -type f | xargs -n1 -I{} cat {} | strings | grep -o 'https://github\.com/[^/]\+' | sort -u | sed 's/[()]//g' | sed "s/'\|\"//g" | sed 's/,.*//g' | httpx -status-code -silent -content-length -mc 404 
 
+
+
+find . -type f | xargs -n1 -I{} cat {} | strings | grep -o 'github\.com/[^/]\+' | sort -u | sed 's/[()]//g' | sed "s/'\|\"//g" | sed 's/,.*//g' |xargs -n1 -I{} echo "https://{}" | httpx -status-code -silent -content-length -mc 404  
+
 {
   "name": "trix",
   "version": "2.0.8",
