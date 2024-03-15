@@ -20,6 +20,9 @@ find . -type f | xargs -n1 -I{} cat {} | strings | grep -o 'github\.com/[^/]\+' 
 
 find . -type f | xargs -n1 -I{} cat {} | strings | grep -o 'github\.com/[^/]\+' | sort -u | sed 's/[()]//g' | sed "s/'\|\"//g" | sed 's/,.*//g' |xargs -n1 -I{} echo "https://{}" | httpx -status-code -silent -content-length -mc 404  
 }
+
+
+find . -type f \( -name "*.yaml" -o -name "*.yml" \) |  xargs -n1 -I{} cat {} | grep 'uses:' | sed 's/-/uses/g' |sed 's/[^ ]*: //g'| sed 's/\buses\b//g'| tr -d ' ' | sort |anew | sed '/^.\//d'|sed '/^#/d'|sed '/^"/d' |sed '/^:/d'|sed 's/\/[^ ]*//g' |anew| sed 's/ [^ ]*://g'| xargs -n1 -I{} echo " https://github.com/{}" |httpx -status-code -silent -content-length  
 {
   "name": "trix",
   "version": "2.0.8",
