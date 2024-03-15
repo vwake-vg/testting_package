@@ -23,7 +23,28 @@ find . -type f | xargs -n1 -I{} cat {} | strings | grep -o 'github\.com/[^/]\+' 
 
 
 find . -type f \( -name "*.yaml" -o -name "*.yml" \) |  xargs -n1 -I{} cat {} | grep 'uses:' | sed 's/-/uses/g' |sed 's/[^ ]*: //g'| sed 's/\buses\b//g'| tr -d ' ' | sort |anew | sed '/^.\//d'|sed '/^#/d'|sed '/^"/d' |sed '/^:/d'|sed 's/\/[^ ]*//g' |anew| sed 's/ [^ ]*://g'| xargs -n1 -I{} echo " https://github.com/{}" |httpx -status-code -silent -content-length  
-{
+
+
+
+ghorg clone github --token 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
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
   "name": "trix",
   "version": "2.0.8",
   "description": "A rich text editor for everyday writing",
